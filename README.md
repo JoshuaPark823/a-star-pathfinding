@@ -19,11 +19,15 @@ tools imported from tkinter.
 	instantiate the `Frame` objects and the `Label` objects. I'm storing the references to each
 	label in an empty dictionary instantiated outside the loops. 
 	- I want to change the colour of individual cells once outside the loop by using their tuples
-	as indexes and accessing their attributes but nothing's been working. TBD
+	as indexes and accessing their attributes but nothing's been working.
 
 ## Solutions
 
-1. In Progress
+1. Extremely simple and obvious solution. All I had to do was write `widgets[position].config(bg = "...")`.
+I believe the reason I had trouble is because I wasn't as familiar with TKinter's API. So after reading some
+more documentation and exhausting every stackoverflow page in existence, I got a better understanding of 
+widget hierarchy! (Solved)
+
 
 
 
