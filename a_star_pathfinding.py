@@ -119,6 +119,10 @@ def a_star(matrix, start_pos, end_pos):
                 if (current_x + i < 0 or current_x + i > len(matrix[0]) or current_y + j < 0 or current_y + j > len(matrix)):
                     continue
 
+                # Walkable terrain check before we make the child_node
+                if (matrix[current_x + i][current_y + j] == 1):
+                    continue
+
                 # Create the new child_node and calculate its costs
                 child_node = Node(current_node, (current_x + i, current_y + j))
 
@@ -142,10 +146,6 @@ def a_star(matrix, start_pos, end_pos):
 
                 if open_node2 == child and open_node2.g_cost < child.g_cost:
                     continue
-
-            # Third, walkable terrain check. If the position in the matrix is unwalkable (== 1), skip over it
-            if matrix[child.position[0]][child.position[1]] == 1:
-                continue
 
             # At this point, we know:
             #   a) The child_node is within the bounds of the matrix.
