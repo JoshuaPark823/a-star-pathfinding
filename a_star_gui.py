@@ -51,7 +51,7 @@ def run():
 
         for j in range(len(matrix[i])):
 
-             # Create a frame object and pack it onto the window
+             # Create a frame object and move it in a grid position onto the window
             frame = Frame(
                 master = window,
                 relief = RAISED,
@@ -78,26 +78,35 @@ def run():
             # Now if we wanna access the specific label, we just have to grab it from
             # the widgets dictionary with the tuple key. Sets the widjets index as the
             # label's position in memory.
-            
+
             widgets[(i,j)] = label
 
     # Set the start and end node widgets as a diff colour
     widgets[start_position].config(bg = "black")
     widgets[end_position].config(bg = "red")
-    
 
-    # Step 2
-    path_tuples = a_star(matrix, start_position, end_position)
-    
-    # highlight the path (minus end nodes) in the gui
-    for i in range(1, len(path_tuples)-1):
-        widgets[path_tuples[i]].config(bg = "blue")
+    # Add a button to run the algorithm and center it at the bottom
+    top_frame = Frame(master = window, borderwidth = 1)
+    top_frame.grid(row = len(matrix) + 1, columnspan = len(matrix[0]))
 
-    # DEBUG aid
-    # grid_location(x,y) => returns grid position at pixels (x,y)
-    print(window.grid_location(26, 51))
-    print(widgets.items())
-    print(path_tuples)
+    # Define a Storage class to hold the return value of the button's callback function, a_star()
+    class Storage:
+        def __init__(self):
+                self.value = []
+
+        def calc_path(self):
+            self.value = a_star(matrix, start_position, end_position)
+
+            # Colour the path blue
+            for i in range(1, len(storage.value)-1):
+                widgets[storage.value[i]].config(bg = "blue")
+
+    # Create an instance of our Storage class
+    storage = Storage()
+
+    # Note, the button calls our Storage class's method calc_path() which calls a_star()
+    btn = Button(master = top_frame, text = "Run A* Algorithm", command = storage.calc_path)
+    btn.pack()
 
     # Main loop
     window.mainloop()
