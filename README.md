@@ -23,8 +23,7 @@ tools imported from tkinter.
 
 ## Solutions
 
-- Again no roadblocks this time around. Calm n collected approaches always result in solid implementation.
-
+1. In Progress
 
 
 
