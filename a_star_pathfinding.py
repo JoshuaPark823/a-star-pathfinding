@@ -143,55 +143,13 @@ def a_star(matrix, start_pos, end_pos):
                 if open_node2 == child and open_node2.g_cost < child.g_cost:
                     continue
 
+            # Third, walkable terrain check. If the position in the matrix is unwalkable (== 1), skip over it
+            if matrix[child.position[0]][child.position[1]] == 1:
+                continue
+
             # At this point, we know:
             #   a) The child_node is within the bounds of the matrix.
             #   b) The child_node is NOT closed. (ie: has not been visited)
             #   c) If the child_node is already in the open_list, this one has a lower g_cost
 
             open_list.append(child)
-
-
-# Main run() function
-def run():
-
-    # TO DO: Define the matrix variable by window size
-    matrix = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-    # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
-    start_position = (0,0)
-    end_position = (5,9)
-
-    # Create the main window object and set some parameters
-    window = Tk()
-    window.title("A* Visualization")
-    window.geometry("900x675")
-
-
-    rows = len(matrix)
-    columns = len(matrix[0])
-
-    canv = Canvas(window, width = 500, height = 500, borderwidth = 5, background = 'blue')
-
-
-
-
-
-
-    # Call the A* function
-    a_star(matrix, start_position, end_position)
-
-    # Open up the main window :)
-    window.mainloop()
-
-# Name check, call the main run function
-if __name__ == '__main__':
-    run()
