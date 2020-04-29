@@ -1,30 +1,27 @@
 from tkinter import *
 import copy
 
-"""
-    A* Pathfinding Implementation:
+    # A* Pathfinding Implementation:
 
-    1. Create a Node class that defines each node
-        - Note: Not all of the grid squares are nodes. Nodes have a parent and a grid position and are only created
-        when they need to be.
+    # 1. Create a Node class that defines each node
+    #     - Note: Not all of the grid squares are nodes. Nodes have a parent and a grid position and are only created
+    #     when they need to be.
 
-    2. Create the start node
+    # 2. Create the start node
 
-    3. Initialize the open/closed lists and the current_node = start_node
+    # 3. Initialize the open/closed lists and the current_node = start_node
 
-    (Enter Loop Here) 
+    # (Enter Loop Here) 
     
-    3.5. Check if the current_node is the end_node
-        - If it is, we can just return and exit the code
+    # 3.5. Check if the current_node is the end_node
+    #     - If it is, we can just return and exit the code
 
-    4. Add the child nodes of the current_node to the open_list and move the current_node onto the closed_list
-        - When adding each node, make sure to calculate each g_cost, h_cost, and f_cost for each node
+    # 4. Add the child nodes of the current_node to the open_list and move the current_node onto the closed_list
+    #     - When adding each node, make sure to calculate each g_cost, h_cost, and f_cost for each node
 
-    5. From the open_list, set the node with the lowest f_cost as the current node and add the current_node to the closed_list
+    # 5. From the open_list, set the node with the lowest f_cost as the current node and add the current_node to the closed_list
 
-    6. Loop back and repeat the process until we arrive at the end_node
-
-"""
+    # 6. Loop back and repeat the process until we arrive at the end_node
 
 # Define the Node() class
 class Node():
@@ -51,30 +48,50 @@ def a_star(matrix, start_pos, end_pos):
     start_node = Node(None, start_pos)
     end_node = Node(None, end_pos)
 
-    # Create a deep copy of the start_node and set it as the current_node
-    current_node = copy.deepcopy(start_node)
-
     # Open and closed lists of nodes are initialized as empty (as they should be)
     open_list = []
     closed_list = []
 
     # Append the current_node (initialized as start_node) onto the open_list so we enter the loop
-    open_list.append(current_node)
+    #open_list.append(current_node)
+    open_list.append(start_node)
 
     # Stay within this loop while we still have potential nearest nodes that need to be visited
     while len(open_list) > 0:
 
-        # Loop through the open_list and if we find a node with a lower f_cost, set it as the current_node
-        for x in open_list:
-           if x.f_cost < current_node.f_cost:
-               current_node = x
+        # Initialize the current_node to the start_node
+        current_node = open_list[0]
 
-        # If our current position is the end position, return
-        if(current_node.position == end_pos):
-            return
+        # Initialize the path, this is going to be a list of tuples representing our final path.
+        path = []
+
+        # Remove the current_node from the open list of unvisited nodes
+        open_list.remove(current_node)
+
+        # Loop through the open_list and if we find a node with a lower f_cost, set it as the current_node
+        for open_node in open_list:
+           if open_node.f_cost < current_node.f_cost:
+               current_node = open_node
+
+        # If our current position is the end position
+        if current_node.position == end_pos:
+            
+            # Give the current_node a new reference
+            cn = current_node
+
+            # Until we're back at the start_node, we're going to keep backtracking
+            while cn is not None:
+
+                path.append(cn.position)
+                cn = cn.parent
+            
+            # Reverse the path so that it's from start_node -> end_node
+            path = path[::-1]
+
+            print(path)
+            return path
 
         # Move the current_node onto the closed_list (marking it as visited)
-        open_list.remove(current_node)
         closed_list.append(current_node)
 
         # LIST OF CHILDREN: 
@@ -86,7 +103,7 @@ def a_star(matrix, start_pos, end_pos):
         # Initialize an empty list of child_nodes
         child_nodes = []
 
-        # Generate child nodes in a creative as fuck method
+        # Generate child nodes in a creative as fuck method (maybe this is suboptimal idk)
         for i in range(-1, 2):
             for j in range(-1, 2):
 
@@ -121,9 +138,9 @@ def a_star(matrix, start_pos, end_pos):
                     continue
 
             # Second, check if the child is a part of the open_list already. If it is, compare g_costs
-            for open_node in open_list:
+            for open_node2 in open_list:
 
-                if open_node == child and open_node.g_cost < child.g_cost:
+                if open_node2 == child and open_node2.g_cost < child.g_cost:
                     continue
 
             # At this point, we know:
@@ -151,15 +168,26 @@ def run():
 
     # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
     start_position = (0,0)
-    end_position = (5,5)
-
-    # Call the A* function
-    a_star(matrix, start_position, end_position)
+    end_position = (5,9)
 
     # Create the main window object and set some parameters
     window = Tk()
     window.title("A* Visualization")
     window.geometry("900x675")
+
+
+    rows = len(matrix)
+    columns = len(matrix[0])
+
+    canv = Canvas(window, width = 500, height = 500, borderwidth = 5, background = 'blue')
+
+
+
+
+
+
+    # Call the A* function
+    a_star(matrix, start_position, end_position)
 
     # Open up the main window :)
     window.mainloop()
