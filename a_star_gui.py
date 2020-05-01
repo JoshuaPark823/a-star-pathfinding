@@ -1,5 +1,6 @@
 from tkinter import *
 from a_star_pathfinding import *
+# import generate_matrix
 
 """
 The Plan:
@@ -28,15 +29,43 @@ def run():
               [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
               [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
 
     # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
     start_position = (0,0)
-    end_position = (5,8)
+    end_position = (9,8)
 
     # Create the main window object and set some parameters
     window = Tk()
     window.title("A* Visualization")
+
+
+    # Add a frame for the "Run A*" button
+    bottom_frame = Frame(master = window, borderwidth = 1)
+    bottom_frame.grid(row = len(matrix) + 2, columnspan = len(matrix[0]))
+
+    span_value = int(0.5* len(matrix))
+
+    # Add a frame for the start_position and end_position prompts
+    prompt_frame = Frame(master = window, borderwidth = 1, width = 100)
+    prompt_frame.grid(row = len(matrix) + 1, column = 0, columnspan = span_value)
+    prompt_frame2 = Frame(master = window, borderwidth = 1, width = 100)
+    prompt_frame2.grid(row = len(matrix) + 1, column = 1, columnspan = span_value)
+
+    # Prompt and label for the start_position
+    start_var = StringVar()
+    start_var.set("Enter Start Position as (x,y): ")
+    start_label = Label(master = prompt_frame, textvariable = start_var)
+    start_label.pack()
+    start_prompt = Entry(master = prompt_frame)
+    start_prompt.pack()
+
+    end_var = StringVar()
+    end_var.set("Enter End Position as (x,y): ")
+    end_label = Label(master = prompt_frame2, textvariable = end_var)
+    end_label.pack()
+    end_prompt = Entry(master = prompt_frame2)
+    end_prompt.pack()
 
     label_padding = 25
 
@@ -81,13 +110,10 @@ def run():
 
             widgets[(i,j)] = label
 
+
     # Set the start and end node widgets as a diff colour
     widgets[start_position].config(bg = "black")
     widgets[end_position].config(bg = "red")
-
-    # Add a button to run the algorithm and center it at the bottom
-    top_frame = Frame(master = window, borderwidth = 1)
-    top_frame.grid(row = len(matrix) + 1, columnspan = len(matrix[0]))
 
     # Define a Storage class to hold the return value of the button's callback function, a_star()
     class Storage:
@@ -105,7 +131,7 @@ def run():
     storage = Storage()
 
     # Note, the button calls our Storage class's method calc_path() which calls a_star()
-    btn = Button(master = top_frame, text = "Run A* Algorithm", command = storage.calc_path)
+    btn = Button(master = bottom_frame, text = "Run A* Algorithm", command = storage.calc_path)
     btn.pack()
 
     # Main loop
