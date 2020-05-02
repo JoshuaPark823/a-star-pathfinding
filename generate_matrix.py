@@ -1,9 +1,7 @@
+
+# Generates an empty 2d matrix of 0's
 def generate_empty(rows, columns):
 
-    matrix = []
-
-    for i in range(rows):
-        for j in range(columns):
-            matrix.append(0)
-
+    matrix = [[0 for x in range(rows)] for y in range(columns)]
     return matrix
+

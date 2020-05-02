@@ -1,6 +1,6 @@
 from tkinter import *
 from a_star_pathfinding import *
-# import generate_matrix
+import generate_matrix
 
 """
 The Plan:
@@ -20,54 +20,51 @@ The Plan:
 def run():
 
     # TO DO: Define the matrix variable by user input
-    matrix = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
+    # matrix = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
+
+    matrix = generate_matrix.generate_empty(25,25)
 
     # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
-    start_position = (0,0)
-    end_position = (9,8)
+    start_position = (1,1)
+    end_position = (23,20)
 
     # Create the main window object and set some parameters
     window = Tk()
     window.title("A* Visualization")
 
-
     # Add a frame for the "Run A*" button
     bottom_frame = Frame(master = window, borderwidth = 1)
     bottom_frame.grid(row = len(matrix) + 2, columnspan = len(matrix[0]))
 
-    span_value = int(0.5* len(matrix))
-
     # Add a frame for the start_position and end_position prompts
     prompt_frame = Frame(master = window, borderwidth = 1, width = 100)
-    prompt_frame.grid(row = len(matrix) + 1, column = 0, columnspan = span_value)
-    prompt_frame2 = Frame(master = window, borderwidth = 1, width = 100)
-    prompt_frame2.grid(row = len(matrix) + 1, column = 1, columnspan = span_value)
+    prompt_frame.grid(row = len(matrix) + 1, column = 0, columnspan = len(matrix[0]))
 
     # Prompt and label for the start_position
     start_var = StringVar()
     start_var.set("Enter Start Position as (x,y): ")
     start_label = Label(master = prompt_frame, textvariable = start_var)
-    start_label.pack()
+    start_label.pack(side = LEFT)
     start_prompt = Entry(master = prompt_frame)
-    start_prompt.pack()
+    start_prompt.pack(side = LEFT)
 
     end_var = StringVar()
     end_var.set("Enter End Position as (x,y): ")
-    end_label = Label(master = prompt_frame2, textvariable = end_var)
-    end_label.pack()
-    end_prompt = Entry(master = prompt_frame2)
-    end_prompt.pack()
+    end_label = Label(master = prompt_frame, textvariable = end_var)
+    end_label.pack(side = LEFT)
+    end_prompt = Entry(master = prompt_frame)
+    end_prompt.pack(side = LEFT)
 
-    label_padding = 25
+    label_padding = 10
 
     # Empty dictionary of widgets so we can reference each widget by its tuple key later on
     widgets = {}
@@ -95,7 +92,7 @@ def run():
                 text = "", 
                 bg = "white",
                 padx = label_padding, 
-                pady = 0.5 * label_padding # Vertical padding is at 50% reduced scale
+                pady = 0.25 * label_padding # Vertical padding is at 50% reduced scale
             )
             label.pack()
 
