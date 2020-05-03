@@ -70,20 +70,28 @@ def run():
     widgets = {}
 
 
-
+    # callback function for clicking on the grid cells
     def callback(event):
+
+        # Change the cell's colour and print it's tuple key for debugging
         event.widget.config(bg = "grey")
-        matrix[event.widget.][j] = 1
-        print(event.widget)
 
+        # position tuple normally returns (y,x)
+        position_tuple = tuple(widgets.keys())[list(widgets.values()).index(event.widget)][::-1]
+        position_tuple_x = position_tuple[0]
+        position_tuple_y = position_tuple[1]
+        print(position_tuple)
+
+        matrix[position_tuple_x][position_tuple_y] = 1
     
-
+        
     # Step 1
-    for i in range(len(matrix)):
+    for i in range(len(matrix)): #loops through rows
 
         window.columnconfigure(i, weight = 1, minsize = label_padding)
         window.rowconfigure(i, weight = 1, minsize = label_padding)
 
+        # loops through columns
         for j in range(len(matrix[i])):
 
              # Create a frame object and move it in a grid position onto the window
@@ -108,7 +116,7 @@ def run():
             label.pack()
 
             # If the cell is untraversable terrain, colour it grey instead
-            if(matrix[i][j] == 1):
+            if(matrix[j][i] == 1):
                 label.config(bg = "grey")
 
             # Add the tuple defining the position of the cell into the widgets list
