@@ -2,40 +2,11 @@ from tkinter import *
 from a_star_pathfinding import *
 import generate_matrix
 
-"""
-The Plan:
-
-    1. Loop through the matrix and display each position with .grid() method
-        - Set the start and end nodes as black and red
-
-    2. Run the a_star() algorithm which returns a list of tuples
-        - As the algorithm is running, have it's f_cost, g_cost, and h_cost displayed (if non zero)
-        - Might need to input the frame or window into the a_star() method and do it there
-
-    3. Highlight the path as the final path
-
-"""
-
 # Main run() function
 def run():
 
-    # TO DO: Define the matrix variable by user input
-    # matrix = [[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    #           [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]]
-
+    # Generate an empty 25 x 25 matrix
     matrix = generate_matrix.generate_empty(25,25)
-
-    # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
-    start_position = (1,1)
-    end_position = (23,20)
 
     # Create the main window object and set some parameters
     window = Tk()
@@ -56,7 +27,6 @@ def run():
     start_label.pack(side = LEFT)
     start_prompt = Entry(master = prompt_frame)
     start_prompt.pack(side = LEFT)
-
     end_var = StringVar()
     end_var.set("Enter End Position as (x,y): ")
     end_label = Label(master = prompt_frame, textvariable = end_var)
@@ -64,10 +34,49 @@ def run():
     end_prompt = Entry(master = prompt_frame)
     end_prompt.pack(side = LEFT)
 
+    # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
+    start_position = (1,1)
+    end_position = (23,20)
+
+    # start_position = tuple(start_prompt.get())
+    # end_position = tuple(end_prompt.get())
+
+    # Define a Storage class to hold the return value of the button's callback function, a_star()
+    class Storage:
+        def __init__(self):
+                self.value = []
+
+        def calc_path(self):
+
+            self.value = a_star(matrix, start_position, end_position)
+
+            # Colour the path blue
+            for i in range(1, len(storage.value)-1):
+                widgets[storage.value[i]].config(bg = "blue")
+
+            widgets[start_position].config(bg = "black")
+            widgets[end_position].config(bg = "red")
+
+    # Create an instance of our Storage class
+    storage = Storage()
+
+    # Note, the button calls our Storage class's method calc_path() which calls a_star()
+    btn = Button(master = bottom_frame, text = "Run A* Algorithm", command = storage.calc_path)
+    btn.pack()
+
     label_padding = 10
 
     # Empty dictionary of widgets so we can reference each widget by its tuple key later on
     widgets = {}
+
+
+
+    def callback(event):
+        event.widget.config(bg = "grey")
+        matrix[event.widget.][j] = 1
+        print(event.widget)
+
+    
 
     # Step 1
     for i in range(len(matrix)):
@@ -85,6 +94,7 @@ def run():
                 bg = "white"
             )
             frame.grid(row = i, column = j)
+            
 
             # Label has to be padded to fit the config size, interesting
             label = Label(
@@ -94,6 +104,7 @@ def run():
                 padx = label_padding, 
                 pady = 0.25 * label_padding # Vertical padding is at 50% reduced scale
             )
+            label.bind("<Button-1>", callback)
             label.pack()
 
             # If the cell is untraversable terrain, colour it grey instead
@@ -106,30 +117,6 @@ def run():
             # label's position in memory.
 
             widgets[(i,j)] = label
-
-
-    # Set the start and end node widgets as a diff colour
-    widgets[start_position].config(bg = "black")
-    widgets[end_position].config(bg = "red")
-
-    # Define a Storage class to hold the return value of the button's callback function, a_star()
-    class Storage:
-        def __init__(self):
-                self.value = []
-
-        def calc_path(self):
-            self.value = a_star(matrix, start_position, end_position)
-
-            # Colour the path blue
-            for i in range(1, len(storage.value)-1):
-                widgets[storage.value[i]].config(bg = "blue")
-
-    # Create an instance of our Storage class
-    storage = Storage()
-
-    # Note, the button calls our Storage class's method calc_path() which calls a_star()
-    btn = Button(master = bottom_frame, text = "Run A* Algorithm", command = storage.calc_path)
-    btn.pack()
 
     # Main loop
     window.mainloop()
