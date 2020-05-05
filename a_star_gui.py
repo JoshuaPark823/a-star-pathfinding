@@ -83,6 +83,7 @@ def run():
         print(position_tuple)
 
         matrix[position_tuple_x][position_tuple_y] = 1
+        print(matrix[position_tuple_x][position_tuple_y])
     
         
     # Step 1

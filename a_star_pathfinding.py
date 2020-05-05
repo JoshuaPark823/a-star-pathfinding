@@ -1,5 +1,3 @@
-from tkinter import *
-import copy
 
     # A* Pathfinding Implementation:
 
@@ -46,7 +44,9 @@ def a_star(matrix, start_pos, end_pos):
 
     # Define the start node with the input parameters
     start_node = Node(None, start_pos)
+    start_node.f_cost = 0
     end_node = Node(None, end_pos)
+    end_node.f_cost = 0
 
     # Open and closed lists of nodes are initialized as empty (as they should be)
     open_list = []
@@ -65,13 +65,16 @@ def a_star(matrix, start_pos, end_pos):
         # Initialize the path, this is going to be a list of tuples representing our final path.
         path = []
 
-        # Remove the current_node from the open list of unvisited nodes
-        open_list.remove(current_node)
-
         # Loop through the open_list and if we find a node with a lower f_cost, set it as the current_node
         for open_node in open_list:
            if open_node.f_cost < current_node.f_cost:
                current_node = open_node
+
+        # Remove the current_node from the open list of unvisited nodes
+        open_list.remove(current_node)
+
+        # Move the current_node onto the closed_list (marking it as visited)
+        closed_list.append(current_node)
 
         # If our current position is the end position
         if current_node.position == end_pos:
@@ -91,8 +94,7 @@ def a_star(matrix, start_pos, end_pos):
             print(path)
             return path
 
-        # Move the current_node onto the closed_list (marking it as visited)
-        closed_list.append(current_node)
+
 
         # LIST OF CHILDREN: 
 
@@ -110,6 +112,7 @@ def a_star(matrix, start_pos, end_pos):
                 # Current (x,y) positions
                 current_x = current_node.position[0]
                 current_y = current_node.position[1]
+                # print(current_node.position)
 
                 # If i, j == 0 this represents position (x,y) so we skip it
                 if (i == 0 and j == 0):
@@ -119,9 +122,8 @@ def a_star(matrix, start_pos, end_pos):
                 if (current_x + i < 0 or current_x + i > len(matrix[0]) or current_y + j < 0 or current_y + j > len(matrix)):
                     continue
 
-                # Walkable terrain check before we make the child_node
-                if (matrix[current_x + i][current_y + j] == 1):
-                    continue
+                # if (matrix[current_x + j][current_y + j] != 0):
+                #     continue
 
                 # Create the new child_node and calculate its costs
                 child_node = Node(current_node, (current_x + i, current_y + j))
@@ -153,3 +155,11 @@ def a_star(matrix, start_pos, end_pos):
             #   c) If the child_node is already in the open_list, this one has a lower g_cost
 
             open_list.append(child)
+
+# m = [[0,0,0,1,0],
+#      [0,0,1,1,0], 
+#      [0,1,1,0,0],
+#      [0,0,0,0,0],
+#      [0,0,0,0,0]]
+
+# a_star(m, (0,0), (4,3))
