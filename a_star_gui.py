@@ -23,13 +23,13 @@ def run():
 
     # Prompt and label for the start_position
     start_var = StringVar()
-    start_var.set("Enter Start Position as (x,y): ")
+    start_var.set("Enter Start Position as x,y: ")
     start_label = Label(master = prompt_frame, textvariable = start_var)
     start_label.pack(side = LEFT)
     start_prompt = Entry(master = prompt_frame)
     start_prompt.pack(side = LEFT)
     end_var = StringVar()
-    end_var.set("Enter End Position as (x,y): ")
+    end_var.set("Enter End Position as x,y: ")
     end_label = Label(master = prompt_frame, textvariable = end_var)
     end_label.pack(side = LEFT)
     end_prompt = Entry(master = prompt_frame)
