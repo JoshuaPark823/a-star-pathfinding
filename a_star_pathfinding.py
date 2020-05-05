@@ -111,8 +111,8 @@ def a_star(matrix, start_pos, end_pos):
                 if (current_x + i < 0 or current_x + i > len(matrix[0]) or current_y + j < 0 or current_y + j > len(matrix)):
                     continue
 
-                # if (matrix[current_x + j][current_y + j] != 0):
-                #     continue
+                if (matrix[current_x + j][current_y + j] != 0):
+                    continue
 
                 # Create the new child_node and calculate its costs
                 child_node = Node(current_node, (current_x + i, current_y + j))
