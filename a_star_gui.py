@@ -1,6 +1,7 @@
 from tkinter import *
 from a_star_pathfinding import *
 import generate_matrix
+from functools import partial
 
 # Main run() function
 def run():
@@ -34,25 +35,29 @@ def run():
     end_prompt = Entry(master = prompt_frame)
     end_prompt.pack(side = LEFT)
 
-    # TO DO: Define start and end positions according to user input, currently hard coded as (0,0) and (5,5)
-    start_position = (1,1)
-    end_position = (23,20)
-
-    # start_position = tuple(start_prompt.get())
-    # end_position = tuple(end_prompt.get())
-
     # Define a Storage class to hold the return value of the button's callback function, a_star()
     class Storage:
+
         def __init__(self):
                 self.value = []
 
         def calc_path(self):
 
+            # Print each row of the matrix into the console before calling a_star (DEBUG)
+            for row in range(len(matrix)):
+                print(matrix[row])
+
+            temp1 = (tuple)(start_prompt.get().split(","))
+            temp2 = (tuple)(end_prompt.get().split(","))
+
+            start_position = ((int)(temp1[0]), (int)(temp1[1]))
+            end_position = ((int)(temp2[0]), (int)(temp2[1]))
+
             self.value = a_star(matrix, start_position, end_position)
 
             # Colour the path blue
-            for i in range(1, len(storage.value)-1):
-                widgets[storage.value[i]].config(bg = "blue")
+            for i in range(1, len(self.value)-1):
+                widgets[self.value[i]].config(bg = "blue")
 
             widgets[start_position].config(bg = "black")
             widgets[end_position].config(bg = "red")
@@ -69,7 +74,6 @@ def run():
     # Empty dictionary of widgets so we can reference each widget by its tuple key later on
     widgets = {}
 
-
     # callback function for clicking on the grid cells
     def callback(event):
 
@@ -77,15 +81,12 @@ def run():
         event.widget.config(bg = "grey")
 
         # position tuple normally returns (y,x)
-        position_tuple = tuple(widgets.keys())[list(widgets.values()).index(event.widget)][::-1]
+        position_tuple = tuple(widgets.keys())[list(widgets.values()).index(event.widget)]
         position_tuple_x = position_tuple[0]
         position_tuple_y = position_tuple[1]
-        print(position_tuple)
 
         matrix[position_tuple_x][position_tuple_y] = 1
-        print(matrix[position_tuple_x][position_tuple_y])
-    
-        
+
     # Step 1
     for i in range(len(matrix)): #loops through rows
 
@@ -103,7 +104,6 @@ def run():
                 bg = "white"
             )
             frame.grid(row = i, column = j)
-            
 
             # Label has to be padded to fit the config size, interesting
             label = Label(
@@ -129,7 +129,6 @@ def run():
 
     # Main loop
     window.mainloop()
-
 
 # Name check, call the main run function
 if __name__ == '__main__':

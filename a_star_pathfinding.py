@@ -4,21 +4,13 @@
     # 1. Create a Node class that defines each node
     #     - Note: Not all of the grid squares are nodes. Nodes have a parent and a grid position and are only created
     #     when they need to be.
-
     # 2. Create the start node
-
     # 3. Initialize the open/closed lists and the current_node = start_node
-
-    # (Enter Loop Here) 
-    
     # 3.5. Check if the current_node is the end_node
     #     - If it is, we can just return and exit the code
-
     # 4. Add the child nodes of the current_node to the open_list and move the current_node onto the closed_list
     #     - When adding each node, make sure to calculate each g_cost, h_cost, and f_cost for each node
-
     # 5. From the open_list, set the node with the lowest f_cost as the current node and add the current_node to the closed_list
-
     # 6. Loop back and repeat the process until we arrive at the end_node
 
 # Define the Node() class
@@ -38,15 +30,14 @@ class Node():
     def distance(self, node_2):
         return abs((node_2.position[0] - self.position[0])**2 + (node_2.position[1] - self.position[1])**2)
 
-
 # A* implementation
 def a_star(matrix, start_pos, end_pos):
 
     # Define the start node with the input parameters
     start_node = Node(None, start_pos)
-    start_node.f_cost = 0
+
     end_node = Node(None, end_pos)
-    end_node.f_cost = 0
+
 
     # Open and closed lists of nodes are initialized as empty (as they should be)
     open_list = []
@@ -94,8 +85,6 @@ def a_star(matrix, start_pos, end_pos):
             print(path)
             return path
 
-
-
         # LIST OF CHILDREN: 
 
             # (x-1, y+1), (x, y+1), (x+1, y+1)
@@ -138,6 +127,12 @@ def a_star(matrix, start_pos, end_pos):
 
         for child in child_nodes:
 
+            # Check all the children to see if we have some unwalkable ones in there
+            if matrix[child.position[0]][child.position[1]] != 0:
+                closed_list.append(child)
+                child_nodes.remove(child)
+                continue
+
             # First, check if the child_node is in the closed_list
             for closed_node in closed_list:
                 if closed_node == child:
@@ -156,10 +151,3 @@ def a_star(matrix, start_pos, end_pos):
 
             open_list.append(child)
 
-# m = [[0,0,0,1,0],
-#      [0,0,1,1,0], 
-#      [0,1,1,0,0],
-#      [0,0,0,0,0],
-#      [0,0,0,0,0]]
-
-# a_star(m, (0,0), (4,3))
