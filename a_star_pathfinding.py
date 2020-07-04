@@ -35,9 +35,7 @@ def a_star(matrix, start_pos, end_pos):
 
     # Define the start node with the input parameters
     start_node = Node(None, start_pos)
-
     end_node = Node(None, end_pos)
-
 
     # Open and closed lists of nodes are initialized as empty (as they should be)
     open_list = []

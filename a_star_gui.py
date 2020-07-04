@@ -43,10 +43,6 @@ def run():
 
         def calc_path(self):
 
-            # Print each row of the matrix into the console before calling a_star (DEBUG)
-            for row in range(len(matrix)):
-                print(matrix[row])
-
             temp1 = (tuple)(start_prompt.get().split(","))
             temp2 = (tuple)(end_prompt.get().split(","))
 
