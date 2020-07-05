@@ -1,5 +1,5 @@
-from tkinter import *
-from a_star_pathfinding import *
+from tkinter import Tk, Frame, StringVar, Entry, Label, LEFT, Button, RAISED
+from a_star_pathfinding import a_star
 import generate_matrix
 from functools import partial
 
