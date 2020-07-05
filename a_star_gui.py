@@ -1,3 +1,6 @@
+
+# SHAM-8 Style for Python Imports
+# PEP8 states import statements should be on separate lines, however, this just looks more readable.
 from tkinter import Tk, Frame, StringVar, Entry, Label, LEFT, Button, RAISED
 from a_star_pathfinding import a_star
 import generate_matrix
