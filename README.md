@@ -1,4 +1,4 @@
-# A* Pathfinding Algorithm Visualization
+# A* Pathfinding Algorithm Visualization 🔎
 
 ## Overview: 
 
@@ -8,10 +8,9 @@ node traversal. These costs (g, h, and f) are the distance from the current node
 the distance from the current node to the end node (calculated from a heuristic), and the sum of the
 the g and h costs above.
 
-- I implement this algorithm using python and create a graphical user interface and visualization using
-tools imported from tkinter.
+- The algorithm avoids dynamically placed obstacles and finds the most optimal path to the end node, taking into account the varying distances.
 
-## Roadblocks!
+## Roadblocks! 😱
 
 1. First Roadblock (GUI):
 	- The first issue that I've come across is with the GUI. Currently I have it set up so that
@@ -25,7 +24,7 @@ tools imported from tkinter.
 	- I realized that having `a_star()` called from the button's `command` attribute is a horrible 
 	idea because the return value, aka the path, won't be accessible.
 
-## Solutions
+## Solutions 🥳
 
 1. Extremely simple and obvious solution. All I had to do was write `widgets[position].config(bg = "...")`.
 I believe the reason I had trouble is because I wasn't as familiar with TKinter's API. So after reading some
@@ -39,6 +38,11 @@ return value in `self.value` (the attribute).
 	**BUT** using global variables to store values is **bad practice** and harder to manage. 
 	Therefore, I stored it in a class's fields :)
 
+## Languages, Tools, & Technologies 🛠
+- Python 3.8.3
+- Tkinter API
+
+![Screenshot](./a_star_gui_sc.png)
 
 
 
