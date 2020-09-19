@@ -92,7 +92,7 @@ def a_star(matrix, start_pos, end_pos):
         # Initialize an empty list of child_nodes
         child_nodes = []
 
-        # Generate child nodes in a creative as fuck method (maybe this is suboptimal idk)
+        # Generate child nodes, this might be suboptimal? But because the ranges are bounded I'm of the understand that this should be fine.
         for i in range(-1, 2):
             for j in range(-1, 2):
 
